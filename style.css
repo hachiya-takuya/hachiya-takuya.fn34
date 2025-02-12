@@ -1,0 +1,113 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+#defaultText{
+    margin: 1rem
+}
+
+
+#unicornDefault{
+    cursor: pointer;
+    z-index: 128;
+    position: relative;
+    left: 0;
+    transition: all 0.5s;
+    transition-timing-function: ease-in;
+}
+
+
+#defaultElements{
+    overflow-y: hidden;
+}
+
+
+#defaultBackground{
+    display: none;
+    z-index: 64;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00B57B;
+    position: absolute;
+    top:0;
+    left:0;
+    transition: all 0.33s;
+    transition-timing-function: ease-in;
+}
+
+
+#gameWrapper{
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00B57B;
+    position: absolute;
+    overflow: hidden;
+}
+
+
+#introductionTextWrapper{
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+#introductionText{
+    z-index: 1024;
+}
+
+
+#unicorn{
+    display: none;
+    z-index: 512;
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    transition: none;
+    transition-timing-function: ease-out;
+}
+
+
+.hurdle {
+    display: block;
+    height: 50px;
+    z-index: 513;
+    position: absolute;
+    left: 0;
+    bottom: 50px;
+    transition: none;
+    transition-timing-function: ease-out;
+    animation: circle 1s linear infinite;
+}
+
+@keyframes circle {
+    100%{transform: rotate(0deg);}    
+    0%{transform: rotate(360deg);}    
+}
+
+
+.blinking{
+	-webkit-animation:blink 0.75s ease-in-out infinite alternate;
+    -moz-animation:blink 0.75s ease-in-out infinite alternate;
+    animation:blink 0.75s ease-in-out infinite alternate;
+}
+@-webkit-keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+@-moz-keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+@keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
