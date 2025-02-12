@@ -138,3 +138,14 @@
     height: 100px;
     background-color: rgba(255, 0, 0, 0.3);
 }
+
+
+/* mobile */
+@media (min-width: 550px) {
+    h1 { font-size: 4.0rem; }
+    h2 { font-size: 3.5rem; }
+    h3 { font-size: 3.2rem; }
+    h4 { font-size: 3.0rem; }
+    h5 { font-size: 2.4rem; }
+    h6 { font-size: 1.5rem; }
+}
