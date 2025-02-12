@@ -1,11 +1,16 @@
 *{
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 
 
 #defaultText{
     margin: 1rem
+}
+
+#defaultElements{
+    overflow-x: hidden;
 }
 
 
@@ -59,9 +64,15 @@
     cursor: pointer;
 }
 
-
-#introductionText{
-    z-index: 1024;
+#resultTextWrapper{
+    z-index: 4096;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
@@ -76,7 +87,13 @@
 }
 
 
-.hurdle {
+.unicornDead{
+    transition-timing-function: ease-out;
+    animation: circle 0.5s linear infinite;
+}
+
+
+.star {
     display: block;
     height: 50px;
     z-index: 513;
@@ -110,4 +127,14 @@
 @keyframes blink{
     0% {opacity:0;}
     100% {opacity:1;}
+}
+
+
+#testRect{
+    display: none;
+    z-index: 12000;
+    position: absolute;
+    left: 0px;
+    height: 100px;
+    background-color: rgba(255, 0, 0, 0.3);
 }
