@@ -58,8 +58,8 @@ async function initGame(){
     await sleep(1000);    
     document.getElementById("defaultElements").remove();
 
-    unicorn.style.display = "block";
     unicorn.style.left = `${window.innerWidth*1.5}px`;
+    unicorn.style.display = "block";
     unicorn.style.transition = "all 3s"
     await sleep(1);
     unicorn.style.left = `${1}rem`;

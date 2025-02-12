@@ -54,6 +54,8 @@
 
 
 #introductionTextWrapper{
+    z-index: 4096;
+    position: relative;
     display: none;
     width: 100vw;
     height: 100vh;
@@ -66,6 +68,7 @@
 
 #resultTextWrapper{
     z-index: 4096;
+    position: relative;
     display: none;
     width: 100vw;
     height: 100vh;
@@ -141,11 +144,9 @@
 
 
 /* mobile */
-@media (min-width: 550px) {
-    h1 { font-size: 4.0rem; }
-    h2 { font-size: 3.5rem; }
-    h3 { font-size: 3.2rem; }
-    h4 { font-size: 3.0rem; }
-    h5 { font-size: 2.4rem; }
-    h6 { font-size: 1.5rem; }
+@media (max-width: 450px) {
+    #introductionTextWrapper,
+    #resultTextWrapper{
+        font-size: 8px;
+    }
 }
