@@ -1,8 +1,12 @@
 'use strict'
 // 1行目に記載している 'use strict' は削除しないでください
 
+const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches);
+
+
 const vhPx = window.outerHeight / 100;
 const vwPx = window.innerWidth / 100;
+const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
 
 const testRect = document.getElementById("testRect");
 let testMode = false;
@@ -14,6 +18,9 @@ const gameSetting = {
     starIntervalMin: 800,  // [ms]
     starIntervalMax: 3000,  // [ms]
     starSpeed: 3,  // [s]
+}
+if(isSmartPhone()){
+    gameSetting.jumpHeight = 100 + 2 * remPx;
 }
 
 
@@ -85,7 +92,10 @@ async function unicornJump(){
     await sleep(gameSetting.jumpTime);
     unicorn.style.transition = "all 0.05s"
     unicorn.style["transition-timing-function"] = "ease-in"    
-    unicorn.style.bottom = `0px`;    
+    unicorn.style.bottom = `0px`;   
+    if(isSmartPhone()){
+        unicorn.style.bottom = `2rem`;   
+    } 
     await sleep(gameSetting.jumpInterval);
     unicornObj.jumping = false;
 }
@@ -140,10 +150,19 @@ function _hitJudge(){
 
 function _hit(unicornRect, starsPoints){
     let hit = false;
-    const unicornAria = {
-        bottom: unicornRect.bottom - 40,
-        xLeft: unicornRect.x + 100,
-        xRight: unicornRect.right -120,
+    let unicornAria;
+    if(isSmartPhone()){
+        unicornAria = {
+            bottom: unicornRect.bottom - 18,
+            xLeft: unicornRect.x + 30,
+            xRight: unicornRect.right - 30,
+        }
+    }else{
+        unicornAria = {
+            bottom: unicornRect.bottom - 40,
+            xLeft: unicornRect.x + 100,
+            xRight: unicornRect.right -120,
+        }            
     }
     if(testMode){
         testRect.style.left = `${unicornAria.xLeft}px`;
@@ -207,6 +226,9 @@ const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
 document.addEventListener("DOMContentLoaded", () => startEvent().then());
 
 async function startEvent(){
+    if (isSmartPhone()){
+        document.getElementById("unicorn").style.width = "8rem";
+    }
     document.getElementById("unicornDefault").addEventListener("click", ()=>{initGame().then();})
     document.getElementById("introductionTextWrapper").addEventListener("click", ()=>{startGame().then();})
     document.body.onkeydown = KeyboardEvent;
@@ -217,3 +239,5 @@ function toTestMode(){
     testMode = true;
     testRect.style.display = "block";
 }
+
+
