@@ -9,6 +9,10 @@ const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
 
 
 // Global variable
+const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+const testRect = document.getElementById("testRect");
+
+
 const gameSetting = {
     jumpHeight: 100,
     jumpTime: 500,
@@ -31,10 +35,6 @@ const unicornObj = {
     dead: false,
     score: 0,
 };
-
-
-const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-const testRect = document.getElementById("testRect");
 
 
 /**
