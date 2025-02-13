@@ -1,16 +1,7 @@
 'use strict'
 // 1行目に記載している 'use strict' は削除しないでください
 
-const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches);
-
-
-const vhPx = window.outerHeight / 100;
-const vwPx = window.innerWidth / 100;
-const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-
-const testRect = document.getElementById("testRect");
-let testMode = false;
-
+// Global variable
 const gameSetting = {
     jumpHeight: 100,
     jumpTime: 500,
@@ -18,6 +9,7 @@ const gameSetting = {
     starIntervalMin: 800,  // [ms]
     starIntervalMax: 3000,  // [ms]
     starSpeed: 3,  // [s]
+    testMode: false,
 }
 if(isSmartPhone()){
     gameSetting.jumpHeight = 100 + 2 * remPx;
@@ -34,6 +26,24 @@ const unicornObj = {
 };
 
 
+const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+const testRect = document.getElementById("testRect");
+
+
+// util functions
+const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches);
+const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
+const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
+
+
+/**
+ * Initialize Game
+ * 1. unicorn background spread
+ * 2. Go out default unicorn
+ * 3. Come back playable unicorn
+ * 4. Display introduction text
+ * @returns none:
+ */
 async function initGame(){
     if(unicornObj.initStart){return;}
     unicornObj.initStart = true;
@@ -69,11 +79,17 @@ async function initGame(){
 }
 
 
+/**
+ * Game start
+ * 1. hidden introduction text
+ * 2. Add unicornJump to click event
+ * 3. Initialize score
+ * 4. kick starGenerator.
+ */
 async function startGame(){
     const unicorn = document.getElementById("unicorn")
     unicorn.style.transition = "none"
     document.getElementById("introductionTextWrapper").remove();
-    document.body.onkeydown = KeyboardEvent;
     unicornObj.running = true;
     document.getElementById("gameWrapper").addEventListener("click", ()=>{unicornJump().then();});
     unicornObj.score = 0;
@@ -81,6 +97,9 @@ async function startGame(){
 }
 
 
+/**
+ * Jump unicorn
+ */
 async function unicornJump(){
     const unicorn = document.getElementById("unicorn")
     if (unicornObj.jumping){return{}}
@@ -101,6 +120,25 @@ async function unicornJump(){
 }
 
 
+/**
+ * star generating while loop
+ * end trigger: unicornObj.running
+ */
+async function starGenerator(){
+    console.log("Game Start!");
+    hitJudge();
+    while(unicornObj.running){
+        await getNewStar();
+        let next = getRandom(gameSetting.starIntervalMin, gameSetting.starIntervalMax);
+        await sleep(next);
+    }
+}
+
+
+/**
+ * Generate new star.
+ * Then remove star after go out from display.
+ */
 async function getNewStar()  {
     const star = document.createElement("img", );
     star.classList = "star";
@@ -120,34 +158,41 @@ async function getNewStar()  {
 }
 
 
-async function starGenerator(){
-    console.log("Game Start!");
-    hitJudge();
-    while(unicornObj.running){
-        await getNewStar();
-        let next = getRandom(gameSetting.starIntervalMin, gameSetting.starIntervalMax);
-        await sleep(next);
-    }
-}
-
-
+/**
+ * Start hitJudgement
+ */
 async function hitJudge(){
     gameSetting.judgeIntervalId = setInterval(_hitJudge, 1)
 }
 
+
+/**
+ * Judgement hit or not
+ * If hit, then 
+ * - unicornObj.dead = true;
+ * - unicornObj.running = false;
+ * - Stop judgementInterval
+ * - kick onGameEnd event.
+ */
 function _hitJudge(){
     const unicornRect = document.getElementById("unicorn").getBoundingClientRect();
     const starsPoints = [...document.getElementsByClassName("star")].map((el) => getTopCenter(el.getBoundingClientRect()));
     if (_hit(unicornRect, starsPoints)){
         console.log("hit!")
         unicornObj.dead = true;
-        unicornObj.running = false
+        unicornObj.running = false;
         clearInterval(gameSetting.judgeIntervalId);
         onGameEnd().then();
     }
 }
 
 
+/**
+ * Actual hit judgement.
+ * @param {object} unicornRect 
+ * @param {object[]} starsPoints 
+ * @returns {boolean} - judgement hit or not
+ */
 function _hit(unicornRect, starsPoints){
     let hit = false;
     let unicornAria;
@@ -164,7 +209,7 @@ function _hit(unicornRect, starsPoints){
             xRight: unicornRect.right -120,
         }            
     }
-    if(testMode){
+    if(gameSetting.testMode){
         testRect.style.left = `${unicornAria.xLeft}px`;
         testRect.style.right = `${window.innerWidth - unicornAria.xRight}px`;
         testRect.style.bottom = `${window.innerHeight - unicornAria.bottom}px`;    
@@ -181,7 +226,7 @@ function _hit(unicornRect, starsPoints){
 
 
 /**
- * 
+ * Get center of star position.
  * @param {DOMRect} domRectCenter 
  * @returns {object}  absolute position
  * 
@@ -193,6 +238,12 @@ function getTopCenter(domRect){
     }
 }
 
+
+/**
+ * Game end event.
+ * 1. Throw away unicorn
+ * 2. Display result text
+ */
 async function onGameEnd(){
     console.log("DEAD END!!");
     const unicorn = document.getElementById("unicorn");
@@ -207,7 +258,11 @@ async function onGameEnd(){
 }
 
 
-function KeyboardEvent(e){
+/**
+ * key push event
+ * @param {Event} e 
+ */
+function onKeyboardEvent(e){
     if (e.key == " " ||
         e.code == "Space" ||      
         e.keyCode == 32      
@@ -221,23 +276,29 @@ function KeyboardEvent(e){
 }
 
 
-const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
-const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
-document.addEventListener("DOMContentLoaded", () => startEvent().then());
+/**
+ * for test mode.
+ */
+function toTestMode(){
+    gameSetting.testMode = true;
+    testRect.style.display = "block";
+}
 
-async function startEvent(){
+
+/**
+ * Loaded event callback.
+ */
+async function onLoadEnd(){
     if (isSmartPhone()){
         document.getElementById("unicorn").style.width = "8rem";
     }
     document.getElementById("unicornDefault").addEventListener("click", ()=>{initGame().then();})
     document.getElementById("introductionTextWrapper").addEventListener("click", ()=>{startGame().then();})
-    document.body.onkeydown = KeyboardEvent;
+    document.body.onkeydown = onKeyboardEvent;
 }
 
 
-function toTestMode(){
-    testMode = true;
-    testRect.style.display = "block";
-}
-
-
+/**
+ * main loaded event
+ */
+document.addEventListener("DOMContentLoaded", () => onLoadEnd().then());
