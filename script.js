@@ -1,6 +1,13 @@
 'use strict'
 // 1行目に記載している 'use strict' は削除しないでください
 
+
+// util functions
+const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches);
+const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
+const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
+
+
 // Global variable
 const gameSetting = {
     jumpHeight: 100,
@@ -28,12 +35,6 @@ const unicornObj = {
 
 const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const testRect = document.getElementById("testRect");
-
-
-// util functions
-const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches);
-const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
-const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
 
 
 /**
