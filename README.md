@@ -13,30 +13,32 @@
 # こだわりポイント
 
 ## \[JS\] JSDOCを書いて、機能を見える化
-それぞれしっかり書きました！
+それぞれしっかり書きました。  
+命名もわかりやすく。
 ```js
 /**
  * Actual hit judgement.
- * @param {object} unicornRect 
- * @param {object[]} starsPoints 
+ * @param {object} - unicornRect 
+ * @param {object[]} - starsPoints 
  * @returns {boolean} - judgement hit or not
  */
 function _hit(unicornRect, starsPoints){
+
 ```
 
 
 ## \[JS\] 機能を関数に分けて、実装をしやすく
-- `initGame`: 画面遷移/ゲームの初期化
+- `initGame`: 画面遷移, ゲームの初期化
 - `startGame`: ゲーム開始処理
 - `unicornJump`: ユニコーンがジャンプ!
 - `starGenerator`: スターがランダムで現れる
   - `getNewStar`: 実際に一つのスターを生成
 - `hitJudge`: 当たり判定のループ開始
-  - `_hitJudge`: 当たり判定をして、当たったらゲーム終了の処理へ
-    - `_hit`: 実際のあたり判定をする部分
+  - `_hitJudge`: 当たり判定ループ、当たったらゲーム終了の処理へ
     - `getTopCenter`: 現在の「スター」の位置を取得
+    - `_hit`: 実際のあたり判定をする部分
 - `onGameEnd`: ゲーム終了の処理
-- `KeyboardEvent`: キーボードが押されたときの`eventListener`
+- `onKeyboardEvent`: キーボードが押されたときの`eventListener`
 - `onLoadEnd`: ページが読み込み終了した後の`eventListener`
 
 
@@ -139,9 +141,9 @@ const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
 
 
 ## \[JS\] ランダムなタイミングで STAR を出現させる
-1. 最大/最小の範囲の中からランダムで値を選ぶ関数。
+1. 最大 / 最小の範囲の中からランダムで値を選ぶ関数。
 2. 星を出現させる。
-3. 選ばれた時間\[ms\]待つ。
+3. ランダムに選ばれた時間\[ms\]待つ。
 4. 2と3を無限ループさせる。
 ```js
 const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
@@ -157,17 +159,17 @@ async function starGenerator(){
 
 
 ## \[JS\] あたり判定
+`setInterval`関数を使って、1 \[ms\] 毎にあたり判定をトリガー。  
+ユーザ操作と平行して、常にあたり判定を継続させる。
 ```js
 async function hitJudge(){
     gameSetting.judgeIntervalId = setInterval(_hitJudge, 1)
 }
 ```
-`setInterval`関数を使って、1 \[ms\] 毎にあたり判定をトリガー。  
-ユーザ操作と平行して、常にあたり判定を継続させる。
 
 DOM要素の座標取得は、`.getBoundingClientRect()`メソッドで取得。
 ```js
-Element.getBoundingClientRect();
+HTMLElement.getBoundingClientRect();
 ```
 
 
@@ -185,12 +187,12 @@ Element.getBoundingClientRect();
 ```
 
 
-## \[CSS\] HTML要素の点滅と回転
+## \[CSS\] HTML要素の回転と点滅
 `@keyframes`を使って、アニメーションを定義し、使う事で、複雑な、動きを`CSS`で実現。
 ```css
 @keyframes circle {
-    100%{transform: rotate(0deg);}    
     0%{transform: rotate(360deg);}    
+    100%{transform: rotate(0deg);}    
 }
 
 @keyframes blink{
@@ -238,7 +240,7 @@ const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-devic
 markdownも勉強しました！
 
 
-## 調べるって楽しい、できるようになるって楽しい！<br>作ったのが動いたらもっと楽しい！！
+## 調べるって楽しい、実装って楽しい！<br>作ったのが動いたらもっと楽しい！！
 
 
 ### copyright
