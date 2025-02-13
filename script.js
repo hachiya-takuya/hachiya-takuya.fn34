@@ -94,6 +94,8 @@ async function startGame(){
     unicornObj.running = true;
     document.getElementById("gameWrapper").addEventListener("click", ()=>{unicornJump().then();});
     unicornObj.score = 0;
+    console.log("Game Start!");
+    hitJudge();
     starGenerator().then();
 }
 
@@ -127,8 +129,6 @@ async function unicornJump(){
  * end trigger: unicornObj.running
  */
 async function starGenerator(){
-    console.log("Game Start!");
-    hitJudge();
     while(unicornObj.running){
         await getNewStar();
         let next = getRandom(gameSetting.starIntervalMin, gameSetting.starIntervalMax);

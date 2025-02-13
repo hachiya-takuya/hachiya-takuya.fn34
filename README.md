@@ -1,6 +1,8 @@
 # DIG developers go with the UNICORN!!!
+<img src="https://cdn.dribbble.com/users/1281272/screenshots/4515441/unicorn.gif">
+
 この基礎演習講座で、毎日触れ合った、  
-あのユニコーンが走り出す！
+あのユニコーンが走り出す！  
 
 
 # こだわりポイント
@@ -16,6 +18,7 @@
  */
 function _hit(unicornRect, starsPoints){
 ```
+
 
 ## \[JS\] 機能を関数に分けて、実装をしやすく
 - `initGame`: 画面遷移/ゲームの初期化
@@ -58,10 +61,12 @@ const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const testRect = document.getElementById("testRect");
 ```
 
+
 ## \[JS\] スコアの表示には、「テンプレートリテラル」を活用
 ```js
 document.getElementById("resultScoreText").textContent = `SCORE: ${unicornObj.score}`;
 ```
+
 
 ## \[JS\] クリックイベント
 画面のどこをクリックしてもジャンプしてくれるように、画面全体にDIV要素(ラッパー)を配置。  
@@ -69,6 +74,7 @@ document.getElementById("resultScoreText").textContent = `SCORE: ${unicornObj.sc
 ```js
 document.getElementById("gameWrapper").addEventListener("click", ()=>{unicornJump().then();});
 ```
+
 
 ## \[JS\]キーボードイベント
 キーが押されるたびにトリガーされる、`onKeyboardEvent`を定義。  
@@ -88,17 +94,6 @@ function onKeyboardEvent(e){
 }
 
 document.body.onkeydown = onKeyboardEvent;
-```
-
-
-## \[JS\] 動きを待つために、非同期/同期関数を意識した実装。
-- `async`/`await`を使って、`Promise`を活用。  「待つときは待つ」同期処理。
-- 平行してやりたいときは、`asyncFunc().then();`として、非同期で処理を実装。
-
-HTML要素のアニメーションを待つために、  
-以下の様に、「一定時間待つ」という関数を定義。
-```js
-const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
 ```
 
 
@@ -126,6 +121,36 @@ document.addEventListener("DOMContentLoaded", () => onLoadEnd().then());
 
 ```
 
+
+## \[JS\] 非同期/同期関数を意識した実装。
+- `async`/`await`を使って、`Promise`を活用。  「待つときは待つ」同期処理。
+- 平行してやりたいときは、`asyncFunc().then();`として、非同期で処理を実装。
+
+HTML要素のアニメーションを待つために、  
+以下の様に、「一定時間待つ」という関数を定義。
+```js
+const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
+```
+
+
+## \[JS\] ランダムなタイミングで STAR を出現させる
+1. 最大/最小の範囲の中からランダムで値を選ぶ関数。
+2. 星を出現させる。
+3. 選ばれた時間\[ms\]待つ。
+4. 2と3を無限ループさせる。
+```js
+const getRandom = (min, max) => Math.floor((Math.random() * (max - min)) + min);
+
+async function starGenerator(){
+    while(unicornObj.running){
+        await getNewStar();
+        let next = getRandom(gameSetting.starIntervalMin, gameSetting.starIntervalMax);
+        await sleep(next);
+    }
+}
+```
+
+
 ## \[JS\] あたり判定
 ```js
 async function hitJudge(){
@@ -135,9 +160,28 @@ async function hitJudge(){
 `setInterval`関数を使って、1 \[ms\] 毎にあたり判定をトリガー。  
 ユーザ操作と平行して、常にあたり判定を継続させる。
 
+DOM要素の座標取得は、`.getBoundingClientRect()`メソッドで取得。
+```js
+Element.getBoundingClientRect();
+```
 
-## \[CSS\] オブジェクトの点滅と回転
-`ceyframes`を使って、アニメーションを定義し、使う事で、複雑な、動きを`CSS`で実現。
+
+## \[CSS\] HTML要素を「ゆっくり」動かす。
+`transition`を使って、指定
+```css
+#unicornDefault{
+    cursor: pointer;
+    z-index: 128;
+    position: relative;
+    left: 0;
+    transition: all 0.5s;
+    transition-timing-function: ease-in;
+}
+```
+
+
+## \[CSS\] HTML要素の点滅と回転
+`@keyframes`を使って、アニメーションを定義し、使う事で、複雑な、動きを`CSS`で実現。
 ```css
 @keyframes circle {
     100%{transform: rotate(0deg);}    
@@ -154,11 +198,22 @@ async function hitJudge(){
 }
 ```
 
-## \[JS\] レスポンシブ対応
+
+## \[JS / CSS\] レスポンシブ対応
 スマホでもできるように、表示を調整。  
 画面幅でデバイスを判定し、ユニコーンのサイズを調整。
 ```js
+// script.js
 const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches);
+```
+```css
+/* css */
+@media (max-width: 450px) {
+    #introductionTextWrapper,
+    #resultTextWrapper{
+        font-size: 8px;
+    }
+}
 ```
 
 
