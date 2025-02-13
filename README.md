@@ -217,10 +217,23 @@ const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-devic
 ```
 
 
+## \[HTML\] ブラウザのキャッシュ対応
+せっかく修正したのに、ブラウザに反映されない、、、  
+変更したら、読み直してほしい！  
+`.js`, `.css`ファイルにバージョニングをすることでキャッシュから読み込まれるのを回避。
+```html
+<link rel="stylesheet" href="style.css?v=2025.02.12.04" />
+<script type="text/javascript" src="script.js?v=2025.02.12.04"></script>
+```
+
+
 ## \[GIT\] `README.md`を書いて知見を残す
 このファイルを残して、gitで見えるように。  
-誰でも「改善」ができるように！!  
+誰でも「改善」ができるように。  
 markdownも勉強しました！
+
+
+## 調べるって楽しい、できるようになるって楽しい！<br>作ったのが動いたらもっと楽しい！！
 
 
 ### copyright
