@@ -58,13 +58,48 @@ const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const testRect = document.getElementById("testRect");
 ```
 
+## \[JS\] スコアの表示には、「テンプレートリテラル」を活用
+```js
+document.getElementById("resultScoreText").textContent = `SCORE: ${unicornObj.score}`;
+```
+
+## \[JS\] クリックイベント
+画面のどこをクリックしてもジャンプしてくれるように、画面全体にDIV要素(ラッパー)を配置。  
+ゲーム開始処理の中で、`click`のイベントリスナーへ追加。
+```js
+document.getElementById("gameWrapper").addEventListener("click", ()=>{unicornJump().then();});
+```
+
+## \[JS\]キーボードイベント
+キーが押されるたびにトリガーされる、`onKeyboardEvent`を定義。  
+押されたキーが\[SPACE\]だった場合に、ユニコーンの状態に応じて、実行する内容を変化。
+```js
+function onKeyboardEvent(e){
+    if (e.key == " " ||
+        e.code == "Space" ||      
+        e.keyCode == 32      
+    ) {
+        if(unicornObj.init && !unicornObj.running){
+            startGame().then();
+        } else if (unicornObj.running){
+            unicornJump().then();
+        }
+    }
+}
+
+document.body.onkeydown = onKeyboardEvent;
+```
+
+
 ## \[JS\] 動きを待つために、非同期/同期関数を意識した実装。
+- `async`/`await`を使って、`Promise`を活用。  「待つときは待つ」同期処理。
+- 平行してやりたいときは、`asyncFunc().then();`として、非同期で処理を実装。
+
+HTML要素のアニメーションを待つために、  
 以下の様に、「一定時間待つ」という関数を定義。
 ```js
 const sleep = time => new Promise((resolve) => setTimeout(resolve, time));
 ```
-- `async`/`await`を使って、`Promise`を活用。  「待つときは待つ」同期処理。
-- 平行してやりたいときは、`asyncFunc().then();`として、同期処理を実装。
 
 
 ## \[JS\] DOMが存在しないエラーを回避
@@ -89,33 +124,6 @@ async function onLoadEnd(){
  */
 document.addEventListener("DOMContentLoaded", () => onLoadEnd().then());
 
-```
-
-## \[JS\] クリックイベント
-画面のどこをクリックしてもジャンプしてくれるように、ラッパーを画面全体に設置。  
-ゲーム開始処理の中で、イベントリスナーへ追加。
-```js
-document.getElementById("gameWrapper").addEventListener("click", ()=>{unicornJump().then();});
-```
-
-## \[JS\]キーボードイベント
-キーが押されるたびにトリガーされる、`onKeyboardEvent`を定義。  
-押されたキーが\[SPACE\]だった場合に、ユニコーンの状態に応じて、実行する内容を変化。
-```js
-function onKeyboardEvent(e){
-    if (e.key == " " ||
-        e.code == "Space" ||      
-        e.keyCode == 32      
-    ) {
-        if(unicornObj.init && !unicornObj.running){
-            startGame().then();
-        } else if (unicornObj.running){
-            unicornJump().then();
-        }
-    }
-}
-
-document.body.onkeydown = onKeyboardEvent;
 ```
 
 ## \[JS\] あたり判定

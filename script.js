@@ -21,7 +21,7 @@ const gameSetting = {
     starIntervalMax: 3000,  // [ms]
     starSpeed: 3,  // [s]
     testMode: false,
-}
+};
 if(isSmartPhone()){
     gameSetting.jumpHeight = 100 + 2 * remPx;
 }
@@ -48,12 +48,12 @@ const unicornObj = {
 async function initGame(){
     if(unicornObj.initStart){return;}
     unicornObj.initStart = true;
-    const defaultUnicorn = document.getElementById("unicornDefault")
-    const unicorn = document.getElementById("unicorn")
+    const defaultUnicorn = document.getElementById("unicornDefault");
+    const unicorn = document.getElementById("unicorn");
     const unicornPosition = defaultUnicorn.getBoundingClientRect();
     const defaultBackground = document.getElementById("defaultBackground");
     const gameWrapper = document.getElementById("gameWrapper");
-    
+
     defaultBackground.style.top = `${unicornPosition.top}px`;
     defaultBackground.style.left = `-${window.innerWidth}px`;
     defaultBackground.style.height = `${unicornPosition.height}px`;
@@ -71,7 +71,7 @@ async function initGame(){
 
     unicorn.style.left = `${window.innerWidth*1.5}px`;
     unicorn.style.display = "block";
-    unicorn.style.transition = "all 3s"
+    unicorn.style.transition = "all 3s";
     await sleep(1);
     unicorn.style.left = `${1}rem`;
     await sleep(3100);
@@ -88,8 +88,8 @@ async function initGame(){
  * 4. kick starGenerator.
  */
 async function startGame(){
-    const unicorn = document.getElementById("unicorn")
-    unicorn.style.transition = "none"
+    const unicorn = document.getElementById("unicorn");
+    unicorn.style.transition = "none";
     document.getElementById("introductionTextWrapper").remove();
     unicornObj.running = true;
     document.getElementById("gameWrapper").addEventListener("click", ()=>{unicornJump().then();});
@@ -102,20 +102,21 @@ async function startGame(){
  * Jump unicorn
  */
 async function unicornJump(){
-    const unicorn = document.getElementById("unicorn")
-    if (unicornObj.jumping){return{}}
+    const unicorn = document.getElementById("unicorn");
+    if (unicornObj.jumping){return ;}
     unicorn.style.transition = "all 0.05s"
-    unicorn.style["transition-timing-function"] = "ease-out"
+    unicorn.style["transition-timing-function"] = "ease-out";
 
     unicornObj.jumping = true;
     unicorn.style.bottom = `${gameSetting.jumpHeight}px`;
     await sleep(gameSetting.jumpTime);
-    unicorn.style.transition = "all 0.05s"
-    unicorn.style["transition-timing-function"] = "ease-in"    
-    unicorn.style.bottom = `0px`;   
+    unicorn.style.transition = "all 0.05s";
+    unicorn.style["transition-timing-function"] = "ease-in" ;
     if(isSmartPhone()){
         unicorn.style.bottom = `2rem`;   
-    } 
+    } else {
+        unicorn.style.bottom = `0px`;
+    }
     await sleep(gameSetting.jumpInterval);
     unicornObj.jumping = false;
 }
@@ -146,7 +147,7 @@ async function getNewStar()  {
     star.src = "./src/star.png";
     star.style.left = `${window.innerWidth}px`;
     star.style.transition = `all ${gameSetting.starSpeed}s`;
-    star.style["transition-timing-function"] = "ease-in"
+    star.style["transition-timing-function"] = "ease-in";
     document.getElementById("gameWrapper").appendChild(star);
     let ___ = (star.getBoundingClientRect());
     star.style.left = `-100px`;
@@ -163,7 +164,7 @@ async function getNewStar()  {
  * Start hitJudgement
  */
 async function hitJudge(){
-    gameSetting.judgeIntervalId = setInterval(_hitJudge, 1)
+    gameSetting.judgeIntervalId = setInterval(_hitJudge, 1);
 }
 
 
@@ -179,7 +180,7 @@ function _hitJudge(){
     const unicornRect = document.getElementById("unicorn").getBoundingClientRect();
     const starsPoints = [...document.getElementsByClassName("star")].map((el) => getTopCenter(el.getBoundingClientRect()));
     if (_hit(unicornRect, starsPoints)){
-        console.log("hit!")
+        console.log("hit!");
         unicornObj.dead = true;
         unicornObj.running = false;
         clearInterval(gameSetting.judgeIntervalId);
@@ -202,13 +203,13 @@ function _hit(unicornRect, starsPoints){
             bottom: unicornRect.bottom - 18,
             xLeft: unicornRect.x + 30,
             xRight: unicornRect.right - 30,
-        }
+        };
     }else{
         unicornAria = {
             bottom: unicornRect.bottom - 40,
             xLeft: unicornRect.x + 100,
             xRight: unicornRect.right -120,
-        }            
+        };
     }
     if(gameSetting.testMode){
         testRect.style.left = `${unicornAria.xLeft}px`;
@@ -236,7 +237,7 @@ function getTopCenter(domRect){
     return {
         x: domRect.x + (domRect.width / 2),
         y: domRect.y
-    }
+    };
 }
 
 
@@ -255,7 +256,6 @@ async function onGameEnd(){
     document.getElementById("resultScoreText").textContent = `SCORE: ${unicornObj.score}`;
     await sleep(2000);
     document.getElementById("resultTextWrapper").style.display = "flex";
-
 }
 
 
@@ -293,8 +293,8 @@ async function onLoadEnd(){
     if (isSmartPhone()){
         document.getElementById("unicorn").style.width = "8rem";
     }
-    document.getElementById("unicornDefault").addEventListener("click", ()=>{initGame().then();})
-    document.getElementById("introductionTextWrapper").addEventListener("click", ()=>{startGame().then();})
+    document.getElementById("unicornDefault").addEventListener("click", ()=>{initGame().then();});
+    document.getElementById("introductionTextWrapper").addEventListener("click", ()=>{startGame().then();});
     document.body.onkeydown = onKeyboardEvent;
 }
 
