@@ -1,5 +1,4 @@
 'use strict'
-// 1行目に記載している 'use strict' は削除しないでください
 
 
 // util functions
@@ -191,8 +190,8 @@ function _hitJudge(){
 
 /**
  * Actual hit judgement.
- * @param {object} unicornRect 
- * @param {object[]} starsPoints 
+ * @param {object} - unicornRect
+ * @param {object[]} - starsPoints
  * @returns {boolean} - judgement hit or not
  */
 function _hit(unicornRect, starsPoints){
@@ -229,8 +228,8 @@ function _hit(unicornRect, starsPoints){
 
 /**
  * Get center of star position.
- * @param {DOMRect} domRectCenter 
- * @returns {object}  absolute position
+ * @param {DOMRect} - domRectCenter
+ * @returns {object} - absolute position
  * 
  */
 function getTopCenter(domRect){
@@ -261,7 +260,7 @@ async function onGameEnd(){
 
 /**
  * key push event
- * @param {Event} e 
+ * @param {Event} e
  */
 function onKeyboardEvent(e){
     if (e.key == " " ||

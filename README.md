@@ -1,8 +1,13 @@
 # DIG developers go with the UNICORN!!!
-<img src="https://cdn.dribbble.com/users/1281272/screenshots/4515441/unicorn.gif">
-
 この基礎演習講座で、毎日触れ合った、  
 あのユニコーンが走り出す！  
+
+<img src="https://cdn.dribbble.com/users/1281272/screenshots/4515441/unicorn.gif">
+
+
+　
+
+　
 
 
 # こだわりポイント
