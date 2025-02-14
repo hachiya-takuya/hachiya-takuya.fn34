@@ -172,9 +172,10 @@ DOM要素の座標取得は、`.getBoundingClientRect()`メソッドで取得。
 ```js
 HTMLElement.getBoundingClientRect();
 ```
-STARが複数あり、同様のあたり判定を複数する為、`map`メソッドとアロー関数を活用
+
+STARが複数あり、同様のあたり判定を複数する為、`map`メソッドとアロー関数を活用。
 ```
-const starsPoints = [...document.getElementsByClassName("star")].map((el) => getTopCenter(el.getBoundingClientRect()));
+const starsPoints = [...document.getElementsByClassName("star")].map(el => getTopCenter(el));
 ```
 
 

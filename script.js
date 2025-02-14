@@ -148,7 +148,7 @@ async function getNewStar()  {
     star.style.transition = `all ${gameSetting.starSpeed}s`;
     star.style["transition-timing-function"] = "ease-in";
     document.getElementById("gameWrapper").appendChild(star);
-    let ___ = (star.getBoundingClientRect());
+    let _ = (star.getBoundingClientRect());
     star.style.left = `-100px`;
     sleep(gameSetting.starSpeed * 1000 + 1000).then(
         () => {
@@ -177,7 +177,7 @@ async function hitJudge(){
  */
 function _hitJudge(){
     const unicornRect = document.getElementById("unicorn").getBoundingClientRect();
-    const starsPoints = [...document.getElementsByClassName("star")].map((el) => getTopCenter(el.getBoundingClientRect()));
+    const starsPoints = [...document.getElementsByClassName("star")].map(el => getTopCenter(el));
     if (_hit(unicornRect, starsPoints)){
         console.log("hit!");
         unicornObj.dead = true;
@@ -228,11 +228,12 @@ function _hit(unicornRect, starsPoints){
 
 /**
  * Get center of star position.
- * @param {DOMRect} - domRectCenter
+ * @param {HTMLElement} el - domRectCenter
  * @returns {object} - absolute position
  * 
  */
-function getTopCenter(domRect){
+function getTopCenter(el){
+    const domRect = el.getBoundingClientRect()
     return {
         x: domRect.x + (domRect.width / 2),
         y: domRect.y

@@ -5,14 +5,41 @@
 }
 
 
-#defaultText{
-    margin: 1rem
-}
-
 #defaultElements{
     overflow-x: hidden;
+    margin: 0 8px;
 }
 
+#defaultElements h1{
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;  
+}
+
+#defaultElements h2{
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+
+#defaultElements h3{
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
 
 #unicornDefault{
     cursor: pointer;
