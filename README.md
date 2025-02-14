@@ -215,6 +215,10 @@ const starsPoints = [...document.getElementsByClassName("star")].map(el => getTo
 ## \[JS / CSS\] レスポンシブ対応
 スマホでもできるように、表示を調整。  
 画面幅でデバイスを判定し、ユニコーンのサイズを調整。
+
+<img src="./src/frame.png" width="92px">
+
+
 ```js
 // script.js
 const isSmartPhone = () => !!(window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches);
